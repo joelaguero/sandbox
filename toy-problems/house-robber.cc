@@ -9,7 +9,19 @@ ex. [40, 100, 100, 40] --> 140
 
 class Solution {
 public:
-  int rob(vector<int>& nums) {
+    int robRecursively(vector<int> array, int i, int sum, int* largest) {
+        int tempSum = sum;
+        if (tempSum > *largest) { largest = tempSum; }
+        for (int j = i + 2; i < array.size(); j++) {
+            robRecursively(array, j, tempSum, largest);
+        }
+        return 0;
+    }
 
-  }
-}
+    int rob(vector<int>& nums) {
+        int initSum = 0;
+        int largestSum = 0;
+        robRecursively(nums, 0, initSum, largestSum);
+        return largestSum;
+    }
+};
