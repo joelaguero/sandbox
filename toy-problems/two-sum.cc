@@ -7,11 +7,18 @@ class Solution {
 public:
   std::vector<int> twoSum(std::vector<int>& nums, int target) {
     // create an empty set
-    // at each index, add the number to the set if it's less than the target
-
-    // at each index, check if (target - current number) is in the set
-    // if it is, return a tuple with current number and delta
-
+    std::set<int> candidates;
+    for (int i = 0; i < nums.size(); i++) {
+      // at each index, add the number to the set if it's less than the target. then check if (target - current number) is in the set if it is, return a tuple with current number and delta
+      if (nums[i] <= target) {
+        candidates.insert(nums[i]);
+        int delta = target - nums[i];
+        if (candidates.find(delta) != candidates.end()) {
+          return std::vector<int> {nums[i], target};
+        }
+      }
+    }
     // else return an empty vector
+    return std::vector<int> {};
   }
 };
