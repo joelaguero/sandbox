@@ -7,6 +7,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
     <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+
+    <style media="screen">
+      .board {
+        border: 1px solid black;
+        min-width: 300px;
+        min-height: 300px;
+      }
+      .tile {
+        border: 1px solid black;
+      }
+    </style>
   </head>
   <body>
     <div id='app'></div>
@@ -15,8 +26,35 @@
       var App = (props) => (
         <div>
           <h1>Welcome {props.name}!</h1>
+          <Board/>
         </div>
       );
+
+      class Board extends React.Component {
+        render() {
+          return (
+            <div>
+              <table className="board">
+                <tr>
+                  <td className="tile"></td>
+                  <td className="tile"></td>
+                  <td className="tile"></td>
+                </tr>
+                <tr>
+                  <td className="tile"></td>
+                  <td className="tile"></td>
+                  <td className="tile"></td>
+                </tr>
+                <tr>
+                  <td className="tile"></td>
+                  <td className="tile"></td>
+                  <td className="tile"></td>
+                </tr>
+              </table>
+            </div>
+          )
+        }
+      };
 
       var name = prompt('What is your name?');
       ReactDOM.render(<App name={name} />, document.getElementById('app'));
