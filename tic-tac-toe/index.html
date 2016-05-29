@@ -16,6 +16,9 @@
       }
       .tile {
         border: 1px solid black;
+        width: 33%;
+        height: 33%;
+        text-align: center;
       }
     </style>
   </head>
@@ -31,33 +34,52 @@
       );
 
       class Board extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            board: [Array(3), Array(3), Array(3)],
+            unmarkedTiles: 9,
+            turn: 'O',
+          }
+          this.handleTileClick = this.handleTileClick.bind(this);
+        }
+        handleTileClick(e) {
+          const tile = e.target;
+          tile.innerHTML = this.state.turn === 'O' ? 'O' : 'X';
+          this.setState({
+            turn: this.state.turn === 'O' ? 'X' : 'O',
+          })
+          console.log(tile);
+        }
         render() {
           return (
             <div>
               <table className="board">
-                <tr>
-                  <td className="tile"></td>
-                  <td className="tile"></td>
-                  <td className="tile"></td>
-                </tr>
-                <tr>
-                  <td className="tile"></td>
-                  <td className="tile"></td>
-                  <td className="tile"></td>
-                </tr>
-                <tr>
-                  <td className="tile"></td>
-                  <td className="tile"></td>
-                  <td className="tile"></td>
-                </tr>
+                <tbody>
+                  <tr>
+                    <td onClick={this.handleTileClick} className="tile"></td>
+                    <td onClick={this.handleTileClick} className="tile"></td>
+                    <td onClick={this.handleTileClick} className="tile"></td>
+                  </tr>
+                  <tr>
+                    <td onClick={this.handleTileClick} className="tile"></td>
+                    <td onClick={this.handleTileClick} className="tile"></td>
+                    <td onClick={this.handleTileClick} className="tile"></td>
+                  </tr>
+                  <tr>
+                    <td onClick={this.handleTileClick} className="tile"></td>
+                    <td onClick={this.handleTileClick} className="tile"></td>
+                    <td onClick={this.handleTileClick} className="tile"></td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           )
         }
       };
 
-      var name = prompt('What is your name?');
-      ReactDOM.render(<App name={name} />, document.getElementById('app'));
+      // var name = prompt('What is your name?');
+      ReactDOM.render(<App name={'Joel'} />, document.getElementById('app'));
     </script>
   </body>
 </html>
