@@ -13,7 +13,6 @@
 // 01234
 
 const reverseString = (str) => {
-  let result = str;
   if (str.length >= 2) {
     for (let i = 0; i < Math.floor(str.length / 2); i++) {
       let temp = str[i];
@@ -21,5 +20,5 @@ const reverseString = (str) => {
       str[str.length - 1 - i] = temp;
     }
   }
-  return result;
+  return str;
 }
