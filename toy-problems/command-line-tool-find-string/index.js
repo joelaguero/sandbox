@@ -1,3 +1,3 @@
 #! /usr/bin/env node
 
-console.log('This is the filesearch script.');
+console.log(process.argv);
