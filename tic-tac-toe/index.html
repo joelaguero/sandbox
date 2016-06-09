@@ -48,8 +48,24 @@
           tile.innerHTML = this.state.turn === 'O' ? 'O' : 'X';
           this.setState({
             turn: this.state.turn === 'O' ? 'X' : 'O',
-          })
-          console.log(tile);
+            unmarkedTiles: this.state.unmarkedTiles - 1,
+          });
+        }
+        componentDidUpdate() {
+          console.log(this.state.unmarkedTiles === 0);
+          if (this.state.unmarkedTiles === 0) {
+            this.clearBoard();
+          }
+        }
+        clearBoard() {
+          const tiles = document.getElementsByClassName('tile');
+          for (let i = 0; i < tiles.length; i++) {
+            console.log(tiles[i].value);
+            tiles[i].value = '';
+          }
+          this.setState({
+            unmarkedTiles: 9,
+          });
         }
         render() {
           return (
