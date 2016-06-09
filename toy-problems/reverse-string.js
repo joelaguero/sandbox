@@ -12,7 +12,7 @@
 // abcde
 // 01234
 
-const reverseString = (str) {
+const reverseString = (str) => {
   let result = str;
   if (str.length >= 2) {
     for (let i = 0; i < Math.floor(str.length / 2); i++) {
