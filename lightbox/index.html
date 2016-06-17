@@ -9,5 +9,20 @@
 
     </div>
     <script src="helpers.js"></script>
+    <script type="text/javascript">
+      makeHttpRequest('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=084a8ff6ce8790d7c40e37df1fe6ee36&tags=landscape,scenic', function(data) {
+        var parser = new DOMParser();
+        var xmlDoc = parser.parseFromString(data, 'text/xml');
+        var photos = xmlDoc.getElementsByTagName('photo');
+        var container = document.getElementById('main');
+
+        for (var i = 0; i < photos.length; i++) {
+          var p = photos[i];
+          var img = document.createElement('IMG')
+          img.src = 'https://farm' + p.attributes.getNamedItem('farm').value + '.staticflickr.com/' + p.attributes.getNamedItem('server').value + '/' + photos[i].id + '_' + p.attributes.getNamedItem('secret').value + '.jpg';
+          container.appendChild(img);
+        }
+      });
+    </script>
   </body>
 </html>
