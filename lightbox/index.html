@@ -17,34 +17,37 @@
     </div>
     <script src="helpers.js"></script>
     <script type="text/javascript">
-      var displayLightbox = function(photos) {
+
+      makeHttpRequest('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=084a8ff6ce8790d7c40e37df1fe6ee36&tags=decay', function(data) {
+        var parser = new DOMParser();
+        var xmlDoc = parser.parseFromString(data, 'text/xml');
+        var photos = xmlDoc.getElementsByTagName('photo');
+        handleLightboxDisplay(photos);
+      });
+
+      var handleLightboxDisplay = function(photos) {
         var photoIndex = 0;
         var img = document.getElementById('lightbox-image');
         img.src = composeImgSrc(photos[photoIndex]);
 
-        // Find and add event listeners to the previous and next buttons.
+        // Find the previous and next buttons.
         var previousBtn = document.getElementById('lightbox-navigate-previous');
         var nextBtn = document.getElementById('lightbox-navigate-next');
 
+        // Add event listener to previous button.
         previousBtn.addEventListener('click', function(e) {
           photoIndex--;
           if (photoIndex < 0) { photoIndex = photos.length - 1; }
           img.src = composeImgSrc(photos[photoIndex]);
         });
 
+        // Add event listener to next button.
         nextBtn.addEventListener('click', function(e) {
           photoIndex++;
           if (photoIndex >= photos.length) { photoIndex = 0; }
           img.src = composeImgSrc(photos[photoIndex]);
         });
       };
-
-      makeHttpRequest('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=084a8ff6ce8790d7c40e37df1fe6ee36&tags=decay', function(data) {
-        var parser = new DOMParser();
-        var xmlDoc = parser.parseFromString(data, 'text/xml');
-        var photos = xmlDoc.getElementsByTagName('photo');
-        displayLightbox(photos);
-      });
     </script>
   </body>
 </html>
