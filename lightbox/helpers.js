@@ -16,6 +16,14 @@ var makeHttpRequest = function(url, callback) {
   httpRequest.send(null);
 }
 
-var composeImgElement = function() {
-
+/*
+ * Compose the URL for the src of the image provided, based on
+ * the known structure of Flickr photo URLs.
+ */
+var composeImgSrc = function(photo) {
+  return 'https://farm'
+    + photo.attributes.getNamedItem('farm').value + '.staticflickr.com/'
+    + photo.attributes.getNamedItem('server').value + '/'
+    + photo.attributes.getNamedItem('id').value + '_'
+    + photo.attributes.getNamedItem('secret').value + '.jpg';
 };

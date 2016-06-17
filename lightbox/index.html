@@ -17,9 +17,8 @@
         var container = document.getElementById('main');
 
         for (var i = 0; i < photos.length; i++) {
-          var p = photos[i];
           var img = document.createElement('IMG')
-          img.src = 'https://farm' + p.attributes.getNamedItem('farm').value + '.staticflickr.com/' + p.attributes.getNamedItem('server').value + '/' + photos[i].id + '_' + p.attributes.getNamedItem('secret').value + '.jpg';
+          img.src = composeImgSrc(photos[i]);
           container.appendChild(img);
         }
       });
