@@ -16,4 +16,6 @@ var makeHttpRequest = function(url, callback) {
   httpRequest.send(null);
 }
 
-var composeImgElement = function()
+var composeImgElement = function() {
+
+};
