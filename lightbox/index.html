@@ -3,29 +3,30 @@
   <head>
     <meta charset="utf-8">
     <title>Lightbox</title>
-    <link rel="stylesheet" href="/main.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="main.css" media="screen" title="no title" charset="utf-8">
   </head>
   <body>
     <div id="container">
       <div id="lightbox">
         <div id="lightbox-controls">
+          <div id="lightbox-navigate-previous"></div>
+          <div id="lightbox-navigate-next"></div>
         </div>
-        <img id="lightbox-image" src="" alt="Lightbox image" />
+        <img id="lightbox-image" src="" alt="lightbox image" />
       </div>
     </div>
     <script src="helpers.js"></script>
     <script type="text/javascript">
+      var renderPhotosInLightbox = function(photos) {
+        var img = document.getElementById('lightbox-image');
+        img.src = composeImgSrc(photos[0]);
+      };
+
       makeHttpRequest('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=084a8ff6ce8790d7c40e37df1fe6ee36&tags=landscape,scenic', function(data) {
         var parser = new DOMParser();
         var xmlDoc = parser.parseFromString(data, 'text/xml');
         var photos = xmlDoc.getElementsByTagName('photo');
-        var container = document.getElementById('main');
-
-        for (var i = 0; i < photos.length; i++) {
-          var img = document.createElement('IMG')
-          img.src = composeImgSrc(photos[i]);
-          container.appendChild(img);
-        }
+        renderPhotosInLightbox(photos);
       });
     </script>
   </body>
