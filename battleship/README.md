@@ -61,6 +61,31 @@ We can instead just store the location of each player's ships in state. Ships wi
 
 This is more efficient because we will, by default, never be checking open water for a ship. This is especially helpful because it decouples the check for a sunk ship from the board size.
 
+Specifically, state will look as follows:
+```
+{
+  ships: {
+    p1: [
+      {
+        isSunk: Bool,
+        coordinates: [
+          {
+            x: Int,
+            y: Int,
+            isHit: Bool
+          }, ...
+        ]
+      }, ...
+    ],
+    p2: [ ... ]
+  },
+  playerTurn: Int,
+}
+```
+This state structure is easy to reason about and doesn't require us to check every spot on the map for a ship.
+
+Additionally, this makes it easier to check if all player's ships are sunk. We simply iterate over the player's ships and check if any have `isSunk === false`.
+
 ---
 
 #### Decision: Option 2
@@ -74,5 +99,8 @@ The following needs to happen from the application perspective:
 ·· 2. Set turn to Player 1
 ·· 3. Randomly place 5 ships for each player in a non-overlapping way
 2. Players take turns clicking a tile
-·· - When a player clicks a tile, check if the tile is a ship or open water. If it's a ship, check if the owner is the opposing player. If it is, then update the ship to be "hit".
-·· ·· - Check if the ship isSunk.
+·· - When a player clicks a tile, check if the x and y coordinates of the tile match the x and y coordinates of any of the opposing player's ships.
+·· - If the player hits an opposing tile, set `isHit` to `true` and...
+·· ·· - Check if all the other coordinates of the ship are hit. If they are, then the ship is sunk.
+·· ·· ·· - Check if all the opposing player's ships are sunk. If so, the current player wins the game.
+3. A player wins the game. Show this in the state and provide a button to play again, which starts back at Step 1.
