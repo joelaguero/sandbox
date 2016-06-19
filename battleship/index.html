@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Battleship</title>
+    <link rel="stylesheet" href="css/master.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <!-- Load React, ReactDOM, and Babel (JSX transpiling) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+
+    <!-- Load React Components -->
+    <script type="text/babel" src="src/App.jsx"></script>
+    <script type="text/babel">
+      ReactDOM.render(<App />, document.getElementById('app'));
+    </script>
+  </body>
+</html>
