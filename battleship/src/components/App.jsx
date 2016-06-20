@@ -3,12 +3,16 @@ import GameInfo from './GameInfo.jsx';
 import GameBoard from './GameBoard.jsx';
 
 class App extends React.Component {
-  constructor() {
+  constructor(props) {
+    super(props);
     this.rules = {
       boardSize: 10,
       numShips: 5,
     }
-    startNewGame();
+  }
+
+  componentDidMount() {
+    this.startNewGame();
   }
 
   startNewGame() {
@@ -19,13 +23,13 @@ class App extends React.Component {
         p2: [],
       },
     });
-    randomlyPlaceShips();
+    this.randomlyPlaceShips();
   }
 
   randomlyPlaceShips() {
     for (let i = 1; i <= this.rules.numShips; i++) {
-      placeShipOfLength(i, 'p1');
-      placeShipOfLength(i, 'p2');
+      this.placeShipOfLength(i, 'p1');
+      this.placeShipOfLength(i, 'p2');
     }
   }
 
@@ -40,8 +44,8 @@ class App extends React.Component {
       // Check each potential tile to ensure it is neither occupied already
       // nor out of bounds.
       for (var delta = 0; delta < length; delta++) {
-        coords = calculateCoords(coords, direction, delta);
-        if (isOutOfBounds(coords) || isOccupied(coords)) { break; } else {
+        coords = this.calculateCoords(coords, direction, delta);
+        if (this.isOutOfBounds(coords) || this.isOccupied(coords)) { break; } else {
           shipCoords.push(coords);
           delta++;
         }
@@ -53,11 +57,31 @@ class App extends React.Component {
           owner: this.state.ships.owner.push({
             isSunk: false,
             coords: shipCoords,
-          });
-        })
+          }),
+        });
         shipPlaced = true;
       }
     }
+  }
+
+  calculateCoords(coords, direction, delta) {
+    switch(direction) {
+      case 'NORTH':
+      coords.y += delta; break;
+      case 'EAST':
+      coords.x += delta; break;
+      case 'SOUTH':
+      coords.y -= delta; break;
+      case 'WEST':
+      coords.x -= delta; break;
+      default:
+      return coords;
+    }
+    return coords;
+  }
+
+  isOutOfBounds(coords) {
+    return !(0 < coords.x <= this.boardSize && 0 < coords.y <= this.boardSize);
   }
 
   isOccupied(coords) {
@@ -71,21 +95,6 @@ class App extends React.Component {
     return false;
   }
 
-  calculateCoords(coords, direction, delta) {
-    switch(direction) {
-      case 'NORTH':
-        coords.y += delta; break;
-      case 'EAST':
-        coords.x += delta; break;
-      case 'SOUTH':
-        coords.y -= delta; break;
-      case 'WEST':
-        coords.x -= delta; break;
-      default:
-        return coords;
-    }
-    return coords;
-  }
 
   render() {
     return (
