@@ -35,34 +35,40 @@ class App extends React.Component {
       // Choose a starting point at random and a direction.
       let coords = _randomCoordinatePair(this.rules.boardSize);
       let direction = _randomCardinalDirection();
-      let shipCoordinates = [];
+      let shipCoords = [];
 
-      // Check each potential tile to ensure it is not occupied already
+      // Check each potential tile to ensure it is neither occupied already
       // nor out of bounds.
       for (var delta = 0; delta < length; delta++) {
         coords = calculateCoords(coords, direction, delta);
         if (isOutOfBounds(coords) || isOccupied(coords)) { break; } else {
-          shipCoordinates.push(coords);
+          shipCoords.push(coords);
           delta++;
         }
       }
-      // If the appropriate number of empty and valid coordinates are found,
+      // Once the appropriate number of empty and valid coordinates are found,
       // update state accordingly with the ship.
-      if (shipCoordinates.length === length) {
+      if (shipCoords.length === length) {
         this.setState({
           owner: this.state.ships.owner.push({
             isSunk: false,
-            coordinates: shipCoordinates,
+            coords: shipCoords,
           });
         })
         shipPlaced = true;
       }
-      // Repeat this process until the ship is successfully placed.
     }
   }
 
-  isOccupied(coordinates) {
-    // Iterate over the ships in state and check if any of the ship's coordinates
+  isOccupied(coords) {
+    // Iterate over the ships in state and check if any of the ship's coords
+    for (let playerNum in this.state.ships) {
+      for (let i = 0; i < this.state.ships[playerNum]; i++) {
+        let ship = this.state.ships[playerNum][i];
+        if (ship.x === coords.x && ship.y === coords.y) { return true; }
+      }
+    }
+    return false;
   }
 
   render() {
