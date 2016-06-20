@@ -81,7 +81,7 @@ class App extends React.Component {
   }
 
   isOutOfBounds(coords) {
-    return !(0 < coords.x <= this.boardSize && 0 < coords.y <= this.boardSize);
+    return !(0 < coords.x && coords.x <= this.boardSize && 0 < coords.y && coords.y <= this.boardSize);
   }
 
   isOccupied(coords) {
