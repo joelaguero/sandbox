@@ -32,7 +32,7 @@ class App extends React.Component {
   placeShipOfLength(length, owner) {
     let shipPlaced = false;
     while (!shipPlaced) {
-      // Choose a starting point at random and a direction.
+      // Choose a random starting point and direction.
       let coords = _randomCoordinatePair(this.rules.boardSize);
       let direction = _randomCardinalDirection();
       let shipCoords = [];
@@ -69,6 +69,22 @@ class App extends React.Component {
       }
     }
     return false;
+  }
+
+  calculateCoords(coords, direction, delta) {
+    switch(direction) {
+      case 'NORTH':
+        coords.y += delta; break;
+      case 'EAST':
+        coords.x += delta; break;
+      case 'SOUTH':
+        coords.y -= delta; break;
+      case 'WEST':
+        coords.x -= delta; break;
+      default:
+        return coords;
+    }
+    return coords;
   }
 
   render() {
