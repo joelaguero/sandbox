@@ -19,7 +19,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // this.startNewGame();
+    this.startNewGame();
   }
 
   startNewGame() {
@@ -34,7 +34,7 @@ class App extends React.Component {
   }
 
   randomlyPlaceShips() {
-    for (let i = 1; i <= this.rules.numShips; i++) {
+    for (let i = 1; i <= 2; i++) {
       this.placeShipOfLength(i, 'p1');
       this.placeShipOfLength(i, 'p2');
     }
@@ -51,21 +51,24 @@ class App extends React.Component {
       // Check each potential tile to ensure it is neither occupied already
       // nor out of bounds.
       for (var delta = 0; delta < length; delta++) {
+        console.log(delta, length);
         coords = this.calculateCoords(coords, direction, delta);
         if (this.isOutOfBounds(coords) || this.isOccupied(coords)) { break; } else {
           shipCoords.push(coords);
-          delta++;
+          console.log('shipCoords', shipCoords);
         }
       }
+
       // Once the appropriate number of empty and valid coordinates are found,
       // update state accordingly with the ship.
-      if (shipCoords.length === length) {
+      if (shipCoords.length === 1) {
         this.setState({
-          owner: this.state.ships.owner.push({
+          owner: this.state.ships[owner].push({
             isSunk: false,
             coords: shipCoords,
           }),
         });
+        console.log(this.state);
         shipPlaced = true;
       }
     }
@@ -88,7 +91,7 @@ class App extends React.Component {
   }
 
   isOutOfBounds(coords) {
-    return !(0 < coords.x && coords.x <= this.boardSize && 0 < coords.y && coords.y <= this.boardSize);
+    return (coords.x < 0 || this.boardSize < coords.x || coords.y < 0 || this.boardSize < coords.y);
   }
 
   isOccupied(coords) {
@@ -114,7 +117,7 @@ class App extends React.Component {
 };
 
 const _randomCoordinatePair = (boardSize) => (
-  [ Math.floor(Math.random() * boardSize), Math.floor(Math.random() * boardSize) ]
+  { x: Math.floor(Math.random() * boardSize), y: Math.floor(Math.random() * boardSize), isHit: false, }
 );
 
 const _randomCardinalDirection = () => {
