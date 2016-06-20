@@ -5,6 +5,13 @@ import GameBoard from './GameBoard.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      playerTurn: 1,
+      ships: {
+        p1: [],
+        p2: [],
+      },
+    };
     this.rules = {
       boardSize: 10,
       numShips: 5,
@@ -12,7 +19,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.startNewGame();
+    // this.startNewGame();
   }
 
   startNewGame() {
