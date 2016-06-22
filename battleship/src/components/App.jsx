@@ -91,7 +91,7 @@ class App extends React.Component {
   }
 
   isOutOfBounds(coords) {
-    return (coords.x < 1 || this.boardSize < coords.x || coords.y < 1 || this.boardSize < coords.y);
+    return (coords.x < 0 || this.boardSize <= coords.x || coords.y < 0 || this.boardSize <= coords.y);
   }
 
   isOccupied(coords) {
@@ -110,7 +110,7 @@ class App extends React.Component {
     return (
       <div>
         <GameInfo />
-        <GameBoard size={this.boardSize} ships={this.state.ships} />
+        <GameBoard size={this.rules.boardSize} ships={this.state.ships} />
       </div>
     );
   }
