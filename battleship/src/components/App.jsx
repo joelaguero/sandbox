@@ -17,6 +17,7 @@ class App extends React.Component {
       boardSize: 10,
       numShips: 5,
     }
+    this.handleTileClick = this.handleTileClick.bind(this);
   }
 
   componentDidMount() {
@@ -105,12 +106,18 @@ class App extends React.Component {
     return false;
   }
 
+  handleTileClick(row, col) {
+
+  }
 
   render() {
     return (
       <div>
         <GameInfo />
-        <GameBoard size={this.rules.boardSize} ships={this.state.ships} />
+        <GameBoard
+          size={this.rules.boardSize}
+          ships={this.state.ships}
+          handleTileClick={this.handleTileClick} />
       </div>
     );
   }
