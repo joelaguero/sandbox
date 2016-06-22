@@ -1,6 +1,7 @@
 import React from 'react';
 import GameInfo from './GameInfo.jsx';
 import GameBoard from './GameBoard.jsx';
+import _ from 'lodash';
 
 class App extends React.Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.startNewGame();
+    console.log(this.state);
   }
 
   startNewGame() {
@@ -34,7 +36,7 @@ class App extends React.Component {
   }
 
   randomlyPlaceShips() {
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= this.rules.numShips; i++) {
       this.placeShipOfLength(i, 'p1');
       this.placeShipOfLength(i, 'p2');
     }
@@ -50,44 +52,42 @@ class App extends React.Component {
 
       // Check each potential tile to ensure it is neither occupied already
       // nor out of bounds.
-      for (var delta = 0; delta < length; delta++) {
-        console.log(delta, length);
+      for (let delta = 0; delta < length; delta++) {
         coords = this.calculateCoords(coords, direction, delta);
         if (this.isOutOfBounds(coords) || this.isOccupied(coords)) { break; } else {
           shipCoords.push(coords);
-          console.log('shipCoords', shipCoords);
         }
       }
 
       // Once the appropriate number of empty and valid coordinates are found,
       // update state accordingly with the ship.
-      if (shipCoords.length === 1) {
+      if (shipCoords.length === length) {
         this.setState({
           owner: this.state.ships[owner].push({
             isSunk: false,
-            coords: shipCoords,
+            'coords': shipCoords,
           }),
         });
-        console.log(this.state);
         shipPlaced = true;
       }
     }
   }
 
   calculateCoords(coords, direction, delta) {
+    let newCoords = _.clone(coords);
     switch(direction) {
       case 'NORTH':
-      coords.y += delta; break;
+      newCoords.y += delta; break;
       case 'EAST':
-      coords.x += delta; break;
+      newCoords.x += delta; break;
       case 'SOUTH':
-      coords.y -= delta; break;
+      newCoords.y -= delta; break;
       case 'WEST':
-      coords.x -= delta; break;
+      newCoords.x -= delta; break;
       default:
-      return coords;
+      return newCoords;
     }
-    return coords;
+    return newCoords;
   }
 
   isOutOfBounds(coords) {
