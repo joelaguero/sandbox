@@ -52,8 +52,8 @@ class App extends React.Component {
 
       // Check each potential tile to ensure it is neither occupied already
       // nor out of bounds.
-      for (let delta = 0; delta < length; delta++) {
-        coords = this.calculateCoords(coords, direction, delta);
+      for (let i = 0; i < length; i++) {
+        coords = this.calculateCoords(coords, direction);
         if (this.isOutOfBounds(coords) || this.isOccupied(coords)) { break; } else {
           shipCoords.push(coords);
         }
@@ -73,17 +73,17 @@ class App extends React.Component {
     }
   }
 
-  calculateCoords(coords, direction, delta) {
+  calculateCoords(coords, direction) {
     let newCoords = _.clone(coords);
     switch(direction) {
       case 'NORTH':
-      newCoords.y += delta; break;
+      newCoords.y++; break;
       case 'EAST':
-      newCoords.x += delta; break;
+      newCoords.x++; break;
       case 'SOUTH':
-      newCoords.y -= delta; break;
+      newCoords.y--; break;
       case 'WEST':
-      newCoords.x -= delta; break;
+      newCoords.x--; break;
       default:
       return newCoords;
     }
@@ -91,7 +91,7 @@ class App extends React.Component {
   }
 
   isOutOfBounds(coords) {
-    return (coords.x < 0 || this.boardSize < coords.x || coords.y < 0 || this.boardSize < coords.y);
+    return (coords.x < 1 || this.boardSize < coords.x || coords.y < 1 || this.boardSize < coords.y);
   }
 
   isOccupied(coords) {
