@@ -5,11 +5,15 @@ const GameBoard = (props) => {
   for (let i = 0; i < props.size; i++) {
     let cols = [];
     for (let j = 0; j < props.size; j++) {
-
-        cols.push(<td key={i,j} onClick={() => (props.handleTileClick(i, j))} />);
+      // if (props.isOccupied({ x: i, y: j})) {
+      //   cols.push(<td key={i,j} className="ship" onClick={() => (props.handleTileClick(i, j))} />);
+      // } else {
+      //   cols.push(<td key={i,j} onClick={() => (props.handleTileClick(i, j))} />);
+      // }
     }
     grid.push(<tr key={i} >{cols}</tr>);
   }
+
   return (
     <table>
       <tbody>

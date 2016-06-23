@@ -12,7 +12,7 @@ class App extends React.Component {
       p2: [],
     };
     this.rules = {
-      boardSize: 10,
+      boardSize: 8,
       numShips: 5,
     }
     this.handleTileClick = this.handleTileClick.bind(this);
@@ -91,16 +91,23 @@ class App extends React.Component {
   }
 
   isOutOfBounds(coords) {
-    return (coords.x < 0 || this.boardSize <= coords.x || coords.y < 0 || this.boardSize <= coords.y);
+    return (coords.x < 0 || coords.x >= this.boardSize || coords.y < 0 || coords.y >= this.boardSize);
   }
 
   isOccupied(coords) {
     // Iterate over the ships in state and check if any of the ship's coords match the provided coords.
-    for (let playerNum in this.state.ships) {
-      for (let i = 0; i < this.state.ships[playerNum]; i++) {
-        let ship = this.state.ships[playerNum][i];
-        for (let j = 0; j < ship.coords.length; j++) {
-          if (ship.coords[j].x === coords.x && ship.coords[j].y === coords.y) { return true; }
+    console.log('Is Occupied?', coords);
+    for (var key in this.state) {
+      console.log(key);
+      if (key === 'p1' || key === 'p2') {
+        console.log('Key is player...', key);
+        for (let i = 0; i < this.state[key].length; i++) {
+          // TODO: Figure out why this is never logging...
+          let ship = this.state[key][i];
+          console.log('ship', ship);
+          for (let j = 0; j < ship.coords.length; j++) {
+            if (ship.coords[j].x === coords.x && ship.coords[j].y === coords.y) { console.log('Returning true...'); return true; }
+          }
         }
       }
     }
