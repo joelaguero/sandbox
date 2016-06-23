@@ -23,6 +23,7 @@ class App extends React.Component {
   componentDidMount() {
     this.startNewGame();
     console.log(this.state);
+    // TODO: Figure out why state is correct here, but not after clicking a tile.
   }
 
   startNewGame() {
@@ -111,7 +112,7 @@ class App extends React.Component {
   }
 
   handleTileClick(x, y) {
-    console.log(x, y);
+    console.log(this.state);
     const ship = this.findEnemyShipAt(x, y);
     if (ship) {
       // If there is a ship present and it belongs to the opposing player, hit it.
