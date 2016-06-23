@@ -8,10 +8,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       playerTurn: 'p1',
-      ships: {
-        p1: [],
-        p2: [],
-      },
+      p1: [],
+      p2: [],
     };
     this.rules = {
       boardSize: 10,
@@ -22,17 +20,13 @@ class App extends React.Component {
 
   componentDidMount() {
     this.startNewGame();
-    console.log(this.state);
-    // TODO: Figure out why state is correct here, but not after clicking a tile.
   }
 
   startNewGame() {
     this.setState({
       playerTurn: 'p1',
-      ships: {
-        p1: [],
-        p2: [],
-      },
+      p1: [],
+      p2: [],
     });
     this.randomlyPlaceShips();
   }
@@ -64,17 +58,19 @@ class App extends React.Component {
       // Once the appropriate number of empty and valid coordinates are found,
       // update state accordingly with the ship.
       if (shipCoords.length === length) {
-        this.setState({
-          // TODO: Confirm that you are updating state correctly here.
-          owner: this.state.ships[owner].push({
-            isSunk: false,
-            'coords': shipCoords,
-            'owner': owner,
-          }),
+        this.setState(function(prevState) {
+          return {
+            [owner]: prevState[owner].concat([{
+              isSunk: false,
+              'coords': shipCoords,
+              'owner': owner,
+            }]),
+          }
         });
         shipPlaced = true;
       }
     }
+
   }
 
   calculateCoords(coords, direction) {
@@ -112,7 +108,6 @@ class App extends React.Component {
   }
 
   handleTileClick(x, y) {
-    console.log(this.state);
     const ship = this.findEnemyShipAt(x, y);
     if (ship) {
       // If there is a ship present and it belongs to the opposing player, hit it.
@@ -144,7 +139,8 @@ class App extends React.Component {
         <GameBoard
           size={this.rules.boardSize}
           ships={this.state.ships}
-          handleTileClick={this.handleTileClick} />
+          handleTileClick={this.handleTileClick}
+          isOccupied={this.isOccupied.bind(this)} />
       </div>
     );
   }

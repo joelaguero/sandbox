@@ -5,14 +5,16 @@ const GameBoard = (props) => {
   for (let i = 0; i < props.size; i++) {
     let cols = [];
     for (let j = 0; j < props.size; j++) {
-      cols.push(<td onClick={() => (props.handleTileClick(i, j))} />);
-    }
-    grid.push(<tr>{cols}</tr>);
-  }
 
+        cols.push(<td key={i,j} onClick={() => (props.handleTileClick(i, j))} />);
+    }
+    grid.push(<tr key={i} >{cols}</tr>);
+  }
   return (
     <table>
-      {grid}
+      <tbody>
+        {grid}
+      </tbody>
     </table>
   );
 };
