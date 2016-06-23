@@ -7,7 +7,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      playerTurn: 1,
+      playerTurn: 'p1',
       ships: {
         p1: [],
         p2: [],
@@ -27,7 +27,7 @@ class App extends React.Component {
 
   startNewGame() {
     this.setState({
-      playerTurn: 1,
+      playerTurn: 'p1',
       ships: {
         p1: [],
         p2: [],
@@ -64,9 +64,11 @@ class App extends React.Component {
       // update state accordingly with the ship.
       if (shipCoords.length === length) {
         this.setState({
+          // TODO: Confirm that you are updating state correctly here.
           owner: this.state.ships[owner].push({
             isSunk: false,
             'coords': shipCoords,
+            'owner': owner,
           }),
         });
         shipPlaced = true;
@@ -96,18 +98,32 @@ class App extends React.Component {
   }
 
   isOccupied(coords) {
-    // Iterate over the ships in state and check if any of the ship's coords
+    // Iterate over the ships in state and check if any of the ship's coords match the provided coords.
     for (let playerNum in this.state.ships) {
       for (let i = 0; i < this.state.ships[playerNum]; i++) {
         let ship = this.state.ships[playerNum][i];
-        if (ship.x === coords.x && ship.y === coords.y) { return true; }
+        // TODO: Implement a helper method for checking provided coords against all the ship's coords.
+        // if (ship.x === coords.x && ship.y === coords.y) { return true; }
       }
     }
     return false;
   }
 
-  handleTileClick(row, col) {
+  handleTileClick(x, y) {
+    const ship = this.findEnemyShipAt(x, y);
+    if (ship) {
+      // If there is a ship present and it belongs to the opposing player, hit it.
+      this.hitShip(ship);
+    }
+  }
 
+  findEnemyShipAt(x, y) {
+    // TODO: Return a reference to the ship stored in state. Return undefined if no enemy ship exists there.
+  }
+
+  hitShip(ship) {
+    // TODO: Update the isHit property of the ship to true.
+    // TODO: Check if the ship is sunk now.
   }
 
   render() {
