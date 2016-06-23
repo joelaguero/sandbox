@@ -54,7 +54,7 @@ class App extends React.Component {
       // Check each potential tile to ensure it is neither occupied already
       // nor out of bounds.
       for (let i = 0; i < length; i++) {
-        coords = this.calculateCoords(coords, direction);
+        coords = (i === 0) ? coords : this.calculateCoords(coords, direction);
         if (this.isOutOfBounds(coords) || this.isOccupied(coords)) { break; } else {
           shipCoords.push(coords);
         }
@@ -111,6 +111,7 @@ class App extends React.Component {
   }
 
   handleTileClick(x, y) {
+    console.log('CLICKED');
     const ship = this.findEnemyShipAt(x, y);
     if (ship) {
       // If there is a ship present and it belongs to the opposing player, hit it.
@@ -123,7 +124,9 @@ class App extends React.Component {
     for (let i = 0; i < this.state.ships[enemy].length; i++) {
       let ship = this.state.ships[enemy][i];
       for (let j = 0; j < ship.coords.length; j++) {
-        if (ship.coords[j].x === x && ship.coords[j].y === y) { return ship; }
+        console.log(i, j);
+        if (ship.coords[j].x === x && ship.coords[j].y === y) {
+          console.log(ship); return ship; }
       }
     }
   }
