@@ -102,8 +102,9 @@ class App extends React.Component {
     for (let playerNum in this.state.ships) {
       for (let i = 0; i < this.state.ships[playerNum]; i++) {
         let ship = this.state.ships[playerNum][i];
-        // TODO: Implement a helper method for checking provided coords against all the ship's coords.
-        // if (ship.x === coords.x && ship.y === coords.y) { return true; }
+        for (let j = 0; j < ship.coords.length; j++) {
+          if (ship.coords[j].x === coords.x && ship.coords[j].y === coords.y) { return true; }
+        }
       }
     }
     return false;
