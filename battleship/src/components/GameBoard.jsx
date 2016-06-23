@@ -2,10 +2,10 @@ import React from 'react';
 
 const GameBoard = (props) => {
   let grid = [];
-  for (var i = 0; i < props.size; i++) {
+  for (let i = 0; i < props.size; i++) {
     let cols = [];
-    for (var j = 0; j < props.size; j++) {
-      cols.push(<td onClick={() => (props.handleTileClick(i, j))}/>);
+    for (let j = 0; j < props.size; j++) {
+      cols.push(<td onClick={() => (props.handleTileClick(i, j))} />);
     }
     grid.push(<tr>{cols}</tr>);
   }

@@ -111,7 +111,7 @@ class App extends React.Component {
   }
 
   handleTileClick(x, y) {
-    console.log('CLICKED');
+    console.log(x, y);
     const ship = this.findEnemyShipAt(x, y);
     if (ship) {
       // If there is a ship present and it belongs to the opposing player, hit it.
