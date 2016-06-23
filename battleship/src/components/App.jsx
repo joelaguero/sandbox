@@ -119,7 +119,13 @@ class App extends React.Component {
   }
 
   findEnemyShipAt(x, y) {
-    // TODO: Return a reference to the ship stored in state. Return undefined if no enemy ship exists there.
+    const enemy = this.state.playerTurn === 'p1' ? 'p2' : 'p1';
+    for (let i = 0; i < this.state.ships[enemy].length; i++) {
+      let ship = this.state.ships[enemy][i];
+      for (let j = 0; j < ship.coords.length; j++) {
+        if (ship.coords[j].x === x && ship.coords[j].y === y) { return ship; }
+      }
+    }
   }
 
   hitShip(ship) {
