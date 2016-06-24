@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Create the component that displays the game title and current player.
 const GameInfo = (props) => (
   <div id='game-info'>
     <h1>Welcome to Battleship</h1>

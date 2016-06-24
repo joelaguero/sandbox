@@ -120,21 +120,24 @@ class App extends React.Component {
     return 'water';
   }
 
+  // Accepts a set of ships and a callback function. Returns true if at least one of the ship's coordinate pairs
+  // returns true when passed into the callback function. Otherwise, returns false.
   checkShipCoords(ships, callback) {
     return _.some(ships, (ship) => {
       return _.some(ship.coords, (coord) => {
         return callback(coord);
       });
     });
+    return false;
   }
 
+  // Compares the coordinate's x and y values to the size of the board, indexed from 0.
   isOutOfBounds(coords) {
     return (coords.x < 0 || coords.x >= this.rules.boardSize || coords.y < 0 || coords.y >= this.rules.boardSize);
   }
 
-  // Accepts coordinates and the set of ships to check against.
+  // Checks if a ship in the set of ships provided is already occupying the provided coordinates.
   isOccupied(coords, ships) {
-    // Iterate over the ships in state and check if any of the ship's coords match the provided coords.
     for (var owner in ships) {
       for (var i = 0; i < ships[owner].length; i++) {
           let ship = ships[owner][i];
@@ -146,12 +149,17 @@ class App extends React.Component {
     return false;
   }
 
+  // Handler method called by the GameBoard component when a tile is clicked.
   handleTileClick(x, y) {
     // If there is a ship present and it belongs to the opposing player, hit it.
     this.hitEnemyShip(x, y);
     this.nextTurn();
   }
 
+  // Attempts to hit an enemy ship at the provided x and y values.
+  // If an enemy ship is found, then it updates the coordinates to be hit.
+  // Additionally, it checks if the ship has sunk and updates the ship accordingly if so.
+  // Finally, it updates state with these changes.
   hitEnemyShip(x, y) {
     const enemy = this.state.playerTurn === 'p1' ? 'p2' : 'p1';
 
@@ -189,14 +197,15 @@ class App extends React.Component {
     }
   }
 
+  // Sets the playerTurn to be the opposite of the player who just finished their turn.
   nextTurn() {
     this.setState({
       playerTurn: this.state.playerTurn === 'p1' ? 'p2' : 'p1',
     });
   }
 
+  // Default render method that handles display of components.
   render() {
-    console.log(this.state);
     return (
       <div id="container">
         <GameInfo
@@ -211,10 +220,13 @@ class App extends React.Component {
   }
 };
 
+// Helper method that generates sa random coordinate pair based no the board size.
 const _randomCoordinatePair = (boardSize) => (
   { x: Math.floor(Math.random() * boardSize), y: Math.floor(Math.random() * boardSize), isHit: false, }
 );
 
+// Helper method that generates a random cardinal direction, used when attempting to randomly place ships
+// during game setup.
 const _randomCardinalDirection = () => {
   const directions = ['NORTH', 'EAST', 'SOUTH', 'WEST'];
   return directions[Math.floor(Math.random() * 4)];
