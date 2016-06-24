@@ -5,10 +5,16 @@ const GameBoard = (props) => {
   for (let i = 0; i < props.size; i++) {
     let cols = [];
     for (let j = 0; j < props.size; j++) {
-      if (props.isOccupied({ x: i, y: j}, props.ships)) {
-        cols.push(<td key={i,j} className="ship" onClick={() => (props.handleTileClick(i, j))} />);
-      } else {
-        cols.push(<td key={i,j} onClick={() => (props.handleTileClick(i, j))} />);
+      let owner = props.isHit({ x: i, y: j}, props.ships);
+      switch(owner) {
+        case 'p1':
+          cols.push(<td key={i,j} className="ship p1" onClick={() => (props.handleTileClick(i, j))} />);
+          break;
+        case 'p2':
+          cols.push(<td key={i,j} className="ship p2" onClick={() => (props.handleTileClick(i, j))} />);
+          break;
+        default:
+          cols.push(<td key={i,j} className="water" onClick={() => (props.handleTileClick(i, j))} />);
       }
     }
     grid.push(<tr key={i} >{cols}</tr>);
