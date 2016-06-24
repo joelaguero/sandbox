@@ -198,8 +198,9 @@ class App extends React.Component {
   render() {
     console.log(this.state);
     return (
-      <div>
-        <GameInfo />
+      <div id="container">
+        <GameInfo
+          playerTurn={this.state.playerTurn} />
         <GameBoard
           size={this.rules.boardSize}
           ships={this.state.ships}

@@ -1,8 +1,12 @@
 import React from 'react';
 
-const GameInfo = () => (
-  <div>
-    This is the game information.
+const GameInfo = (props) => (
+  <div id='game-info'>
+    <h1>Welcome to Battleship</h1>
+    <div>
+      <strong>Who's turn?</strong>
+      <p id="player-turn">{ props.playerTurn }</p>
+    </div>
   </div>
 );
 
