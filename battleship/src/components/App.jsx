@@ -139,6 +139,7 @@ class App extends React.Component {
 
   hitShip(ship) {
     // TODO: Update the isHit property of the ship to true.
+    // TODO: Consider putting this logic in findEnemyShipAt so you don't repeat it.
     // TODO: Check if the ship is sunk now.
   }
 
