@@ -15,7 +15,6 @@ const GameBoard = (props) => {
 // Set onClick events for cells that pass the cell location (x and y values) to the App component.
 const buildGrid = (props) => {
   let grid = [];
-  console.log('props', props);
   // Build the grid of dimensions boardSize X boardSize.
   for (let i = 0; i < props.size; i++) {
     let cols = [];

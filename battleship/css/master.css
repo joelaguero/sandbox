@@ -40,7 +40,7 @@ td:hover {
   background-color: red;
 }
 
-#game-info {
+#game-info, #victory {
   margin: 10px 0px;
   text-align: center;
 }

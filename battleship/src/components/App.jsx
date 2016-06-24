@@ -1,8 +1,18 @@
 import React from 'react';
 import GameInfo from './GameInfo.jsx';
 import GameBoard from './GameBoard.jsx';
+import Victory from './Victory.jsx';
 import _ from 'lodash';
 
+// This is the main component of the Battleship game.
+// It contains the bulk of the logic and holds the ships in state.
+//
+// Details:
+// * Ships are organized by player. A ship is an Object that contains three properties,
+//   including: coords (Array), isSunk (Boolean), and owner (String).
+// * Coords is an array of coordinate objects, which contain properties x (Int), y (Int),
+//   and isHit (Boolean).
+// * In addition, the App component tracks the current player in state.
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -14,8 +24,11 @@ class App extends React.Component {
       },
     };
     this.rules = {
-      boardSize: 8,
-      numShips: 5,
+      boardSize: 4, // Set to a small value for testing purposes.
+      numShips: 2,
+      // NOTE: This application does not yet handle edge cases, such as that where
+      // the number of ships cannot fit on a board of the provided size. Doing this
+      // will result in an infinite loop in the method createShipOfLength.
     }
     // Bind methods passed to other components.
     this.handleTileClick = this.handleTileClick.bind(this);
@@ -153,6 +166,7 @@ class App extends React.Component {
   handleTileClick(x, y) {
     // If there is a ship present and it belongs to the opposing player, hit it.
     this.hitEnemyShip(x, y);
+    this.checkForWinner();
     this.nextTurn();
   }
 
@@ -161,7 +175,7 @@ class App extends React.Component {
   // Additionally, it checks if the ship has sunk and updates the ship accordingly if so.
   // Finally, it updates state with these changes.
   hitEnemyShip(x, y) {
-    const enemy = this.state.playerTurn === 'p1' ? 'p2' : 'p1';
+    const enemy = getOtherPlayer(this.state.playerTurn);
 
     let enemyShips = _.clone(this.state.ships[enemy]); // Clone enemy ships to cleanly update React state.
     let playerShips = _.clone(this.state.ships[this.state.playerTurn]);
@@ -197,15 +211,40 @@ class App extends React.Component {
     }
   }
 
+  // This method checks for a winner and updates state with a winner property if there is one.
+  // This triggers a re-render that displays the Victory component.
+  checkForWinner() {
+    for (var owner in this.state.ships) {
+      if (_.every(this.state.ships[owner], (ship) => (
+        ship.isSunk
+      ))) {
+        this.setState({
+          winner: getOtherPlayer(owner),
+        });
+      }
+    }
+  }
+
   // Sets the playerTurn to be the opposite of the player who just finished their turn.
   nextTurn() {
     this.setState({
-      playerTurn: this.state.playerTurn === 'p1' ? 'p2' : 'p1',
+      playerTurn: getOtherPlayer(this.state.playerTurn),
     });
   }
 
   // Default render method that handles display of components.
   render() {
+
+    // If there is a winner, render a special view.
+    if (this.state.winner) {
+      return (
+        <div id="container">
+          <Victory winner={this.state.winner} />
+        </div>
+      );
+    }
+
+    // Otherwise, render the board.
     return (
       <div id="container">
         <GameInfo
@@ -219,6 +258,11 @@ class App extends React.Component {
     );
   }
 };
+
+// Helper method to return the opposing player's string.
+const getOtherPlayer = (player) => (
+  (player === 'p1') ? 'p2' : 'p1'
+);
 
 // Helper method that generates sa random coordinate pair based no the board size.
 const _randomCoordinatePair = (boardSize) => (
