@@ -1,0 +1,14 @@
+table {
+  border: 1px solid rgba(0,0,0,0.12);
+}
+
+td {
+  text-transform: lowercase;
+  border: 1px solid rgba(0,0,0,0.12);
+  padding: 10px;
+}
+
+thead tr td {
+  text-transform: capitalize;
+  font-weight: bolder;
+}
