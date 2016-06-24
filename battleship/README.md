@@ -3,29 +3,29 @@
 ## Planning
 First, I'm thinking about what components I'm going to need. We'll want a main application component that will need to store state. I'm thinking the sub-components can be purely presentational.
 
-We'll need a info/header sub-component, which will store the score, number of ships remaining, and player turn. At this point, I'm thinking it will be beneficial to flesh out the gameplay so we can keep that in mind when designing the app.
+We'll need a info/header sub-component, which will show who's turn it is. The game could be improved by showing the number of ships remaining and the length of those ships, but I'm going to ignore that for now. At this point, I'm thinking it will be beneficial to flesh out the gameplay so we can work through more details.
 
 ---
 
 ### Gameplay
-Application loads, randomly placing 5 ships for each player. Ships must be placed such that they do not overlap. The 5 ships are 5, 4, 3, 2, and 1 unit(s) in length. There are two players. Initially, 0 ships have been sunk. It is Player One's (P1's) turn.
+Application loads, randomly placing N ships for each player. Ships must be placed such that they do not overlap. The N ships are N, N-1, ..., and 1 unit(s) in length. There are two players. Initially, 0 ships have been sunk. It is Player One's (P1's) turn.
 
 P1 clicks on one of the squares to try and destroy part of Player Two's (P2's) fleet. If P1 doesn't hit one of P2's ships, then nothing happens. If P1 does hit one of P2's ships, then the square should be marked so both players understand that one of P2's ships is there and that it is "hit".
 
 Now, it is P2's turn. P2 does the same as P1. This continues until all ships are sunk. A ship is sunk when all squares representing that ship are "hit" by the opposing player. When P1 or P2 hits the final square of an unsunk ship, the UI should show that the ship has been sunk completely and the number of ships sunk (displayed in a scoreboard of sorts) should increment.
 
-Whichever player sinks all of the opposing player's ships first wins the game. When this happens, the UI should show the winner and provide an option to play again.
+Whichever player sinks all of the opposing player's ships first wins the game. When this happens, the UI should show the winner.
 
 ---
 
 I think the original architecture I had in mind makes sense. One info/header sub-component and a board sub-component, which will be the primary area for gameplay. Here's a summary of the component structure:
 
 - App
-·· - Header
-·· - Board
-·· ·· - Tile (many)
+·· - GameInfo
+·· - GameBoard
+·· - Victory
 
-The Board sub-component will have Tile sub-components that represent one unit of a ship/open water. Next, it's a good idea to explicitly note what we'll store in state.
+Victory component will only be displayed once there is a winner. Next, it's a good idea to explicitly note what we'll store in state.
 
 ---
 
@@ -80,6 +80,7 @@ Specifically, state will look as follows:
     p2: [ ... ]
   },
   playerTurn: Int,
+  winner: String,
 }
 ```
 This state structure is easy to reason about and doesn't require us to check every spot on the map for a ship.
@@ -103,4 +104,14 @@ The following needs to happen from the application perspective:
 ·· - If the player hits an opposing tile, set `isHit` to `true` and...
 ·· ·· - Check if all the other coordinates of the ship are hit. If they are, then the ship is sunk.
 ·· ·· ·· - Check if all the opposing player's ships are sunk. If so, the current player wins the game.
-3. A player wins the game. Show this in the state and provide a button to play again, which starts back at Step 1.
+3. A player wins the game. Show this in the UI.
+
+## Next Steps
+
+I would try to add more features that improve the game play. These could include: (a) the ability to play again without refreshing the page, (b) displaying the percentage of ships destroyed by each player throughout the game, (c) the ability to "peak" and see where your ships are located.
+
+Additionally, I would refactor the App Component to be more modular. I would also decompose the hitEnemyShip method, which is currently doing a lot of tasks that could be broken into sub-functions.
+
+## What I Learned
+
+- Pick a helper library early on and stick with it. I ended up going with Lodash, but didn't start using it until about half-way through the project. This resulted in a mixture of helper methods and manual methods (i.e. using provided methods like `_.every` or `_.some` vs. writing my own with a `for` loop).
