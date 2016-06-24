@@ -18,6 +18,7 @@ class App extends React.Component {
       numShips: 5,
     }
     this.handleTileClick = this.handleTileClick.bind(this);
+    this.isHit = this.isHit.bind(this);
   }
 
   componentDidMount() {
@@ -99,6 +100,23 @@ class App extends React.Component {
     return newCoords;
   }
 
+  isHit(coords, ships) {
+    for (var owner in ships) {
+      if (this.checkShipCoords(ships[owner], (coord) => (coord.isHit && coord.x === coords.x && coord.y === coords.y))) {
+        return owner;
+      }
+    }
+    return undefined;
+  }
+
+  checkShipCoords(ships, callback) {
+    return _.some(ships, (ship) => {
+      return _.some(ship.coords, (coord) => {
+        return callback(coord);
+      });
+    });
+  }
+
   isOutOfBounds(coords) {
     return (coords.x < 0 || coords.x >= this.rules.boardSize || coords.y < 0 || coords.y >= this.rules.boardSize);
   }
@@ -168,7 +186,7 @@ class App extends React.Component {
           size={this.rules.boardSize}
           ships={this.state.ships}
           handleTileClick={this.handleTileClick}
-          isOccupied={this.isOccupied.bind(this)} />
+          isHit={this.isHit} />
       </div>
     );
   }
