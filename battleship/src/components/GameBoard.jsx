@@ -13,7 +13,7 @@ const GameBoard = (props) => {
         case 'p2':
           cols.push(<td key={i,j} className="ship p2" onClick={() => (props.handleTileClick(i, j))} />);
           break;
-        default:
+        default: // 'water'
           cols.push(<td key={i,j} className="water" onClick={() => (props.handleTileClick(i, j))} />);
       }
     }

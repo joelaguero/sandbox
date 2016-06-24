@@ -17,14 +17,18 @@ class App extends React.Component {
       boardSize: 8,
       numShips: 5,
     }
+    // Bind methods passed to other components.
     this.handleTileClick = this.handleTileClick.bind(this);
     this.isHit = this.isHit.bind(this);
   }
 
+  // Once the component has rendered, start a new game.
   componentDidMount() {
     this.startNewGame();
   }
 
+  // Initialize the state for a new game and randomly place ships.
+  // Player 1 always goes first.
   startNewGame() {
     this.setState({
       playerTurn: 'p1',
@@ -36,6 +40,9 @@ class App extends React.Component {
     this.randomlyPlaceShips();
   }
 
+  // This method randomly places ships according to the number of ships set in this.rules.
+  // Ship length is based on the number of ships. For example, 5 ships results in ship lengths
+  // of 5, 4, 3, 2, and 1 for each player.
   randomlyPlaceShips() {
     var ships = {
       'p1': [],
@@ -83,6 +90,7 @@ class App extends React.Component {
 
   }
 
+  // Based on the direction, increment or decrement the appropriate coordinate value (x or y) by 1.
   calculateCoords(coords, direction) {
     let newCoords = _.clone(coords);
     switch(direction) {
@@ -100,13 +108,16 @@ class App extends React.Component {
     return newCoords;
   }
 
+  // Checks if the provided coordinates contain a hit ship. If true, then the owner of the ship is returned.
+  // Otherwise, this method returns undefined.
   isHit(coords, ships) {
     for (var owner in ships) {
       if (this.checkShipCoords(ships[owner], (coord) => (coord.isHit && coord.x === coords.x && coord.y === coords.y))) {
         return owner;
       }
     }
-    return undefined;
+    // If no hit ship is found, return 'water'.
+    return 'water';
   }
 
   checkShipCoords(ships, callback) {
@@ -138,6 +149,7 @@ class App extends React.Component {
   handleTileClick(x, y) {
     // If there is a ship present and it belongs to the opposing player, hit it.
     this.hitEnemyShip(x, y);
+    this.nextTurn();
   }
 
   hitEnemyShip(x, y) {
@@ -175,6 +187,12 @@ class App extends React.Component {
         },
       });
     }
+  }
+
+  nextTurn() {
+    this.setState({
+      playerTurn: this.state.playerTurn === 'p1' ? 'p2' : 'p1',
+    });
   }
 
   render() {

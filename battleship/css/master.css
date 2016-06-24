@@ -16,13 +16,14 @@ td:hover {
 }
 
 .ship {
-
+  background-image: url('http://clipartix.com/wp-content/uploads/2016/04/Boat-pirate-ship-clipart-black-and-white-free-clipart.png');
+  background-size: contain;
 }
 
-.ship .p1 {
+.ship.p1 {
   background-color: blue;
 }
 
-.ship .p2 {
+.ship.p2 {
   background-color: red;
 }
