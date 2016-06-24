@@ -8,7 +8,7 @@ const GameBoard = (props) => {
       // if (props.isOccupied({ x: i, y: j})) {
       //   cols.push(<td key={i,j} className="ship" onClick={() => (props.handleTileClick(i, j))} />);
       // } else {
-      //   cols.push(<td key={i,j} onClick={() => (props.handleTileClick(i, j))} />);
+        cols.push(<td key={i,j} onClick={() => (props.handleTileClick(i, j))} />);
       // }
     }
     grid.push(<tr key={i} >{cols}</tr>);
