@@ -6,9 +6,9 @@ const GameBoard = (props) => {
     let cols = [];
     for (let j = 0; j < props.size; j++) {
       if (props.isOccupied({ x: i, y: j}, props.ships)) {
-        cols.push(<td key={i,j} className="ship" onClick={() => (props.handleTileClick(j, i))} />);
+        cols.push(<td key={i,j} className="ship" onClick={() => (props.handleTileClick(i, j))} />);
       } else {
-        cols.push(<td key={i,j} onClick={() => (props.handleTileClick(j, i))} />);
+        cols.push(<td key={i,j} onClick={() => (props.handleTileClick(i, j))} />);
       }
     }
     grid.push(<tr key={i} >{cols}</tr>);

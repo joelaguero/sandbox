@@ -118,29 +118,45 @@ class App extends React.Component {
   }
 
   handleTileClick(x, y) {
-    const ship = this.findEnemyShipAt(x, y);
-    if (ship) {
-      // If there is a ship present and it belongs to the opposing player, hit it.
-      this.hitShip(ship);
-    }
+    // If there is a ship present and it belongs to the opposing player, hit it.
+    this.hitEnemyShip(x, y);
   }
 
-  findEnemyShipAt(x, y) {
+  hitEnemyShip(x, y) {
     const enemy = this.state.playerTurn === 'p1' ? 'p2' : 'p1';
-    for (let i = 0; i < this.state.ships[enemy].length; i++) {
-      let ship = this.state.ships[enemy][i];
-      for (let j = 0; j < ship.coords.length; j++) {
-        console.log(i, j);
-        if (ship.coords[j].x === x && ship.coords[j].y === y) {
-          console.log(ship); return ship; }
-      }
-    }
-  }
 
-  hitShip(ship) {
-    // TODO: Update the isHit property of the ship to true.
-    // TODO: Consider putting this logic in findEnemyShipAt so you don't repeat it.
-    // TODO: Check if the ship is sunk now.
+    let enemyShips = _.clone(this.state.ships[enemy]); // Clone enemy ships to cleanly update React state.
+    let playerShips = _.clone(this.state.ships[this.state.playerTurn]);
+
+    // Find the target ship.
+    let targetShip = _.find(enemyShips, (ship) => {
+      return _.some(ship.coords, (coords) => {
+        return (coords.x === x && coords.y === y);
+      });
+    });
+
+    // If there's an enemy ship found at the location...
+    if (targetShip) {
+      // Find the target coordinates.
+      let targetCoords = _.find(targetShip.coords, (coords) => {
+        return (coords.x === x && coords.y === y);
+      });
+      // Update target coordinates as hit.
+      targetCoords.isHit = true;
+
+      // Check if the ship is sunk.
+      let isSunk = _.every(targetShip.coords, (coords) => (
+        coords.isHit
+      ));
+      targetShip.isSunk = isSunk;
+      // Update state with the modified enemy ships.
+      this.setState({
+        ships: {
+          [enemy]: enemyShips,
+          [this.state.playerTurn]: playerShips,
+        },
+      });
+    }
   }
 
   render() {
