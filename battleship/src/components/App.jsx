@@ -63,7 +63,7 @@ class App extends React.Component {
       // nor out of bounds.
       for (let i = 0; i < length; i++) {
         coords = (i === 0) ? coords : this.calculateCoords(coords, direction);
-        if ((this.isOutOfBounds(coords)) || (this.isOccupied(coords, ships))) { break; } else {
+        if (this.isOutOfBounds(coords) || this.isOccupied(coords, ships)) { break; } else {
           shipCoords.push(coords);
         }
       }
@@ -100,7 +100,7 @@ class App extends React.Component {
   }
 
   isOutOfBounds(coords) {
-    return ((coords.x < 0) || (coords.x >= this.boardSize) || (coords.y < 0) || (coords.y >= this.boardSize));
+    return (coords.x < 0 || coords.x >= this.rules.boardSize || coords.y < 0 || coords.y >= this.rules.boardSize);
   }
 
   // Accepts coordinates and the set of ships to check against.
@@ -110,7 +110,7 @@ class App extends React.Component {
       for (var i = 0; i < ships[owner].length; i++) {
           let ship = ships[owner][i];
           for (let j = 0; j < ship.coords.length; j++) {
-            if ((ship.coords[j].x === coords.x) && (ship.coords[j].y === coords.y)) { console.log('Returning true...'); return true; }
+            if ((ship.coords[j].x === coords.x) && (ship.coords[j].y === coords.y)) { return true; }
           }
       }
     }
