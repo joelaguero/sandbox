@@ -16,5 +16,13 @@ td:hover {
 }
 
 .ship {
+
+}
+
+.ship .p1 {
+  background-color: blue;
+}
+
+.ship .p2 {
   background-color: red;
 }
