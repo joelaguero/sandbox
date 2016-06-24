@@ -1,4 +1,7 @@
 # Battleship
+I used React to build my Battleship application because it's what I've been using most recently. I used Webpack to compile the templating language JSX and to bundle my javascript file. 
+
+I didn't use a CSS preprocessor because I knew I wouldn't have too much styling, but in real applications I usually use SASS. 
 
 ## Planning
 First, I'm thinking about what components I'm going to need. We'll want a main application component that will need to store state. I'm thinking the sub-components can be purely presentational.
