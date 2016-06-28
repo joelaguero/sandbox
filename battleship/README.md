@@ -1,4 +1,7 @@
 # Battleship
+I used React to build my Battleship application because it's what I've been using most recently. I used Webpack to compile the templating language JSX and to bundle my javascript file. 
+
+I didn't use a CSS preprocessor because I knew I wouldn't have too much styling, but in real applications I usually use SASS. 
 
 ## Planning
 First, I'm thinking about what components I'm going to need. We'll want a main application component that will need to store state. I'm thinking the sub-components can be purely presentational.
@@ -21,9 +24,9 @@ Whichever player sinks all of the opposing player's ships first wins the game. W
 I think the original architecture I had in mind makes sense. One info/header sub-component and a board sub-component, which will be the primary area for gameplay. Here's a summary of the component structure:
 
 - App
-·· - GameInfo
-·· - GameBoard
-·· - Victory
+  - GameInfo
+  - GameBoard
+  - Victory
 
 Victory component will only be displayed once there is a winner. Next, it's a good idea to explicitly note what we'll store in state.
 
@@ -49,9 +52,14 @@ The object will take the following shape:
 }
 ```
 In addition, we'll need to track who's turn it is in state as well. By default this should be set to P1.
-| Pro | Con |
-| ---- | ---- |
-| Maps really well to the real-world representation. Easy to reason about. | Checking if sinks are sunk is not easily done. Requires finding the adjacent ships or storing the location of each other ship piece on the ship.|
+
+Pro 
+
+- Maps really well to the real-world representation. Easy to reason about.
+
+Con 
+
+- Checking if sinks are sunk is not easily done. Requires finding the adjacent ships or storing the location of each other ship piece on the ship.
 
 ---
 
@@ -96,14 +104,14 @@ Option 1's time complexity scales with the size of the board; Option 2 scales wi
 ### App Flow
 The following needs to happen from the application perspective:
 1. Create a new game
-·· 1. Initialize two players
-·· 2. Set turn to Player 1
-·· 3. Randomly place 5 ships for each player in a non-overlapping way
+  1. Initialize two players
+  2. Set turn to Player 1
+  3. Randomly place 5 ships for each player in a non-overlapping way
 2. Players take turns clicking a tile
-·· - When a player clicks a tile, check if the x and y coordinates of the tile match the x and y coordinates of any of the opposing player's ships.
-·· - If the player hits an opposing tile, set `isHit` to `true` and...
-·· ·· - Check if all the other coordinates of the ship are hit. If they are, then the ship is sunk.
-·· ·· ·· - Check if all the opposing player's ships are sunk. If so, the current player wins the game.
+  - When a player clicks a tile, check if the x and y coordinates of the tile match the x and y coordinates of any of the opposing player's ships.
+  - If the player hits an opposing tile, set `isHit` to `true` and...
+    - Check if all the other coordinates of the ship are hit. If they are, then the ship is sunk.
+    - Check if all the opposing player's ships are sunk. If so, the current player wins the game.
 3. A player wins the game. Show this in the UI.
 
 ## Next Steps
@@ -115,3 +123,4 @@ Additionally, I would refactor the App Component to be more modular. I would als
 ## What I Learned
 
 - Pick a helper library early on and stick with it. I ended up going with Lodash, but didn't start using it until about half-way through the project. This resulted in a mixture of helper methods and manual methods (i.e. using provided methods like `_.every` or `_.some` vs. writing my own with a `for` loop).
+- I ran into a bug where the ship coordinates were changing retroactively. This was because the coordinates were being stored as references. I fixed this by using lodash's clone method before modifying the coordinates.
