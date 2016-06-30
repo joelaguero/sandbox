@@ -1,0 +1,76 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @post.body %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @post.user_id %>
+</p>
+
+<div id="comments">
+</div>
+
+<form class="new_comment" id="new_comment" action="/comments" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="QNjKyKf0FeEwhsMFEbeXdJJ61afl9Tcf5GPVx29bv5KwtP5KCwparEKQUMIzOnxRenQ7bk8RddljVhZZpuSylQ==">
+  <div class="field">
+    <label for="comment_body">Body</label><br>
+    <textarea name="comment[body]" id="comment_body"></textarea>
+  </div>
+  <div class="field">
+    <label for="comment_user_id">Author Id</label><br>
+    <input type="number" name="comment[user_id]" id="comment_user_id">
+  </div>
+  <div class="actions">
+    <input type="submit" name="commit" value="Create Comment">
+  </div>
+</form>
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>
+
+<script>
+  $('form').on('submit', function(e) {
+    e.preventDefault();
+    handleCommentSubmit();
+  });
+
+  var handleCommentSubmit = function() {
+    $.ajax({
+      method: 'POST',
+      url: 'http://localhost:3000/comments.json',
+      data: {
+        'comment': {
+          'body': $('#comment_body').val(),
+          'user_id': $('#comment_user_id').val(),
+          'post_id': window.location.pathname.slice(-1),
+        },
+      }
+    }).done(function(res) {
+      appendComment(res);
+    });
+  };
+
+  var appendComment = function(comment) {
+    let $div = $('<div></div>');
+    let $body = $('<p></p>').text(comment.body);
+    let $userId = $('<p></p>').text(comment.user_id);
+    $div.append($body).append($userId);
+    $('#comments').append($div);
+  };
+
+  $.get('http://localhost:3000/comments.json', function(comments) {
+    console.log(comments);
+    for(var i = 0; i < comments.length; i++) {
+      console.log(comments[i]);
+      if (comments[i].post_id && comments[i].post_id.toString() === window.location.pathname.slice(-1)) {
+        let $div = $('<div></div>');
+        let $body = $('<p></p>').text(comments[i].body);
+        let $userId = $('<p></p>').text(comments[i].user_id);
+        $div.append($body).append($userId);
+        $('#comments').append($div);
+      }
+    }
+  });
+</script>

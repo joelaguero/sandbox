@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<% @posts.each do |post| %>
+  <h1><%= link_to post.title, post %> (id <%= post.id %>)</h1>
+  <p>By <%= post.user.name %></p>
+  <p><%= post.body %></p>
+  <% post.comments.each do |comment| %>
+    <p>
+      <%= comment.user.name %> commented: <%= comment.body %>
+    </p>
+  <% end %>
+  <hr>
+<% end %>
+
+<%= link_to 'New Post', new_post_path %>
+<%= link_to 'New Comment', new_comment_path %>
