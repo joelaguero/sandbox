@@ -102,7 +102,8 @@ Additionally, this makes it easier to check if all player's ships are sunk. We s
 Option 1's time complexity scales with the size of the board; Option 2 scales with the number and size of the ships, which must always be equal to or smaller than the number of tiles on the board (otherwise, you would have a case where ships are overlapping).
 
 ### App Flow
-The following needs to happen from the application perspective:
+The following needs to happen from the application perspective: 
+
 1. Create a new game
   1. Initialize two players
   2. Set turn to Player 1
